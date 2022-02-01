@@ -1,7 +1,15 @@
 <template>
   <div id="app">
     <header>
-      <img src="../src/assets/hamburger.svg" alt="メニューアイコン">
+      <div class="header_wrap">
+        <img class="header_icon" src="../src/assets/hamburger.svg" alt="メニューアイコン">
+        <h1 class="header_title"><a href="/">News Site</a></h1>
+        <form class="header_form">
+          <div class="search_box">
+            <input class="header_search" type="text" placeholder="検索ワードを入力">
+          </div>
+        </form>
+      </div><!-- header_wrap -->
     </header>
 
     <div class="main_contents">
@@ -56,6 +64,7 @@ $breakpoints: (
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  text-decoration: none;
 }
 
 [v-cloak] {
@@ -65,7 +74,7 @@ $breakpoints: (
 .topic {
   padding: 0 10px;
 }
-h1 {
+.page_title {
   text-align: center;
   margin: 85px 0 20px;
   font-family: serif;
@@ -146,6 +155,20 @@ h1 {
   // height: 24px;
 }
 
+.search_box {
+  position: relative;
+  &:before {
+    content: "";           /* 疑似要素に必須 */
+    width: 24px;           /* アイコンの横幅 */
+    height: 24px;          /* アイコンの高さ */
+    background: url('../src/assets/search.svg') no-repeat center center / auto 100%; /* 背景にアイコン画像を配置 */
+    display: inline-block; /* 高さを持たせるためにインラインブロック要素にする */
+    position: absolute;    /* 相対位置に指定 */
+    top: 10.5px;              /* アイコンの位置。微調整してね */
+    left: 10px;
+  }
+}
+
 header {
   height: 65px;
   width: 100%;
@@ -154,6 +177,48 @@ header {
   z-index: 10;
   background-color: #fff;
   box-shadow: 0 0 5px #111;
+}
+.header {
+  &_wrap {
+    position: relative;
+  }
+  &_icon {
+    position: absolute;
+    top: 20.5px;
+    left: 30px;
+  }
+  &_title {
+    position: absolute;
+    top: 10px;
+    right: 50px;
+  }
+  &_form {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    left: 100px;
+    @include media(m) {
+      left: 80px;
+    }
+  }
+  &_search {
+    width: 300px;
+    padding: 15px 15px 15px 40px;
+    background-color: #F1F3F4;
+    border: 0px solid #F1F3F4;
+    border-radius: 10px;
+    @include media(m) {
+      width: 83px;
+    }
+    &:focus {
+      background-color: #fff;
+      box-shadow: 0 0 10px #F1F3F4;
+      outline: 3px solid #F1F3F4;
+      @include media(m) {
+        width: 300px;
+      }
+    }
+  }
 }
 
 .main_contents {

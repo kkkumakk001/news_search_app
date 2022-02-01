@@ -1,6 +1,6 @@
 <template>
   <div class="topic topic_top">
-    <h1>【トップページ】</h1>
+    <h1 class="page_title">【トップページ】</h1>
     <div class="articles">
         <article class="art" v-for="(item, key) in items" :key="key">
           <div class="art_contents">
