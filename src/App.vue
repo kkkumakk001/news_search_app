@@ -2,15 +2,48 @@
   <div id="app">
     <header>
       <div class="header_wrap">
-        <img class="header_icon" src="../src/assets/hamburger.svg" alt="メニューアイコン">
+        <!-- <button id="menu_icon" class="header_icon" @click="menuToggle"> -->
+        <button class="header_icon">
+          <img id="menu_icon" class="header_icon_img" src="../src/assets/hamburger.svg" alt="メニューアイコン">
+        </button>
         <h1 class="header_title"><a href="/">News Site</a></h1>
         <form class="header_form">
           <div class="search_box">
-            <input class="header_search" type="text" placeholder="検索ワードを入力">
+            <input v-on:keydown.enter.stop.prevent="changeWord" class="header_search" type="text" placeholder="検索ワードを入力">
           </div>
         </form>
       </div><!-- header_wrap -->
     </header>
+
+    <!-- <div id="menu_cover" class="menu_cover_class" :class="{ open: toggle }"> -->
+    <div id="menu_cover" class="menu_cover_class">
+      <router-link to="/">
+          <img class="nav_icon" src="../src/assets/language.svg" alt="トップページのアイコン">
+          <span class="nav_title">トップ</span>
+          </router-link><br>
+
+          <router-link to="/sport">
+          <img class="nav_icon" src="../src/assets/walking.svg" alt="スポーツページのアイコン">
+          <span class="nav_title">スポーツ</span>
+          </router-link><br>
+
+          <router-link to="/tech">
+          <img class="nav_icon" src="../src/assets/rss.svg" alt="技術ページのアイコン">
+          <span class="nav_title">技術</span>
+          </router-link><br>
+
+          <router-link to="/finance">
+          <img class="nav_icon" src="../src/assets/trending-up.svg" alt="金融ページのアイコン">
+          <span class="nav_title">金融</span>
+          </router-link>
+
+          <router-link to="/search">
+            <div class="search_wrap">
+              <img class="nav_icon" src="../src/assets/trending-up.svg" alt="金融ページのアイコン">
+              <span class="nav_title">検索</span>
+            </div>
+          </router-link>
+    </div>
 
     <div class="main_contents">
       <div class="main_contents_sidebar">
@@ -65,6 +98,10 @@ $breakpoints: (
   margin: 0;
   box-sizing: border-box;
   text-decoration: none;
+}
+.button {
+  border: none;
+  outline: none;
 }
 
 [v-cloak] {
@@ -185,7 +222,19 @@ header {
   &_icon {
     position: absolute;
     top: 20.5px;
-    left: 30px;
+    left: 20px;
+    display: none;
+    border: none;
+    outline: none;
+    background-color: #fff;
+    z-index: 1000;
+    // border: none;
+    // &_img {
+    // z-index: 1000;
+    // }
+    @include media(m) {
+      display: block;
+    }
   }
   &_title {
     position: absolute;
@@ -196,7 +245,7 @@ header {
     display: inline-block;
     position: absolute;
     top: 10px;
-    left: 100px;
+    left: 50px;
     @include media(m) {
       left: 80px;
     }
@@ -271,5 +320,101 @@ header {
 
 
 
+// #menu_cover {
+//   background-color: #a9a9a9;
+//   box-sizing: border-box;
+//   height: 100%;
+//   width: 50%;
+//   padding: 10px;
+//   position: fixed;
+//   left: -100%;
+//   top: 65px;
+//   transition: transform 1s linear 0s;
+//   z-index: 100;
+//   // box-shadow: 3px 0 3px -3px #000;
+//   & >  a.router-link-exact-active {
+//     background-color: rgb(227, 237, 253);
+//   }
+// }
+
+.menu_cover_class {
+  background-color: #a9a9a9;
+  box-sizing: border-box;
+  height: 100%;
+  width: 50%;
+  padding: 10px;
+  position: fixed;
+  left: -100%;
+  top: 65px;
+  transition: transform 1s linear 0s;
+  z-index: 100;
+  // box-shadow: 3px 0 3px -3px #000;
+  & >  a.router-link-exact-active {
+    background-color: rgb(227, 237, 253);
+  }
+}
+
+.open {
+  left: 0;
+  top: 65px;
+}
+
+.search_wrap {
+  display: none;
+}
+
 
 </style>
+
+<script>
+
+export default {
+  name: 'App',
+  data() {
+    return {
+      // toggle: false
+    }
+  },
+  methods: {
+    menuToggle() {
+      // this.toggle = !this.toggle
+    },
+    changeWord(e) {
+      this.$store.commit('changeKeyword', e.target.value)
+      this.$router.push({
+        path: 'search',
+        query: { timestamp: Date.now() }
+      })
+    }
+  },
+  computed: {
+    message() {
+      return this.$store.state.message
+    }
+  }
+}
+
+
+document.addEventListener('DOMContentLoaded', ()=> {
+
+  const iconMenu = document.getElementById('menu_icon')
+  const opendMenu = document.getElementById('menu_cover')
+
+
+  addEventListener('click', (e) => {
+    if(e.target != opendMenu && opendMenu.classList.contains('open') == true) {
+      opendMenu.classList.remove('open')
+      console.log('閉じる通ってる')
+    }
+  })
+
+  addEventListener('click', (e) => {
+    if(e.target == iconMenu) {
+      opendMenu.classList.toggle('open')
+      console.log('開く通ってる')
+    }
+  })
+
+
+})
+</script>

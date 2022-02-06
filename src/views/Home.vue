@@ -8,7 +8,6 @@
               <p>{{ item.title }}</p>
             </a>
             <p class="art_author_date">{{ item.author }} ・ {{ item.published_date | elapsedTime() }}</p>
-            <!-- <p class="art_published_date">{{ item.published_date | elapsedTime() }}</p> -->
           </div>
           <div class="art_tmb">
             <img class="art_img" :src="item.media">
@@ -32,7 +31,6 @@ export default {
   },
   watch: {
     keyword: function() {
-      // this.message = 'waiting for you to stop typing...'
       this.debouncedGetNews()
     }
   },
@@ -63,7 +61,6 @@ export default {
         this.message = ''
         return
       }
-      // this.message = 'loading...';
       const vm = this
       const options = {
         method: 'GET',
@@ -71,7 +68,6 @@ export default {
         params: {
           q: this.keyword,
           lang: 'ja',
-          // topic: 'sport'
         },
         headers: {
           'x-rapidapi-key': '39b9878d8fmshb826941db19e36ap123af3jsn340c04941738',
@@ -80,7 +76,7 @@ export default {
       }
       this.$axios.request(options)
           .then(function(response){
-            console.log(response)
+            // console.log(response)
             vm.items = response.data.articles
           })
           .catch(function(error){
@@ -92,66 +88,8 @@ export default {
     }, //getNews()
   } //methods option
 } //export default
-
-
-
-
-
 </script>
 
 <style lang="scss">
-// * {
-//   padding: 0;
-//   margin: 0;
-//   box-sizing: border-box;
-// }
 
-// [v-cloak] {
-//   display: none;
-// }
-
-// .topic {
-//   padding: 0 10px;
-// }
-// h1 {
-//   text-align: center;
-//   margin: 85px 0 20px;
-//   font-family: serif;
-//   font-size: 24px;
-// }
-// .articles {
-//   display: flex;
-//   flex-wrap: wrap;
-//   justify-content: center;
-// }  
-// .art {
-//   display: flex;
-//   justify-content: space-between;
-//   padding: 10px 20px;
-//   margin:0 20px 20px;
-//   width: 100%;
-//   max-width: 500px;
-//   border: 1px solid rgba(0, 0, 0, 0.2);
-//   border-radius: 10px;
-//   /* box-shadow: 0 0 1px lightgray; */
-//   &_contents {
-//     margin-right: 25px;
-//   }
-//   a {
-//     text-decoration: none;
-//     color: #000;
-//     &:hover {
-//       text-decoration: underline;
-//     }
-//   }
-//   &_img {
-//     width: 100px;
-//     height: 100px;
-//     border-radius: 10px;
-//   }
-//   &_author_date {
-//     opacity: 0.8;
-//     font-size: 14px;
-//   }
-// }
 </style>

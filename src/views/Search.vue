@@ -1,6 +1,6 @@
 <template>
-  <div class="topic topic_finance">
-    <h1 class="page_title">【金融】</h1>
+  <div class="topic topic_top">
+    <h1 class="page_title">【{{ $store.state.keyword }}で検索】</h1>
     <div class="articles">
         <article class="art" v-for="(item, key) in items" :key="key">
           <div class="art_contents">
@@ -21,22 +21,26 @@
 import _ from 'lodash';
 
 export default {
-  name: 'Sports',
+  name: 'Search',
   data() {
     return {
       items: null,
-      keyword: '',
-      message: ''
+    }
+  },
+  computed: {
+    setWord() {
+      return this.$store.state.keyword
     }
   },
   watch: {
-    keyword: function() {
+    setWord: function() {
       this.debouncedGetNews()
     }
   },
   mounted: function() {
-    this.keyword = '為替'
+    console.log(this.$store.state.keyword)
     this.debouncedGetNews = _.debounce(this.getNews, 1000)
+    this.debouncedGetNews()
   },
   filters: {
     elapsedTime: function(val) {
@@ -55,7 +59,7 @@ export default {
   },
   methods: {
     getNews() {
-      if(this.keyword === '') {
+      if(this.setWord === '') {
         console.log('空文字')
         this.items = null
         this.message = ''
@@ -66,7 +70,7 @@ export default {
         method: 'GET',
         url: 'https://free-news.p.rapidapi.com/v1/search',
         params: {
-          q: this.keyword,
+          q: this.setWord,
           lang: 'ja',
         },
         headers: {
@@ -80,10 +84,10 @@ export default {
             vm.items = response.data.articles
           })
           .catch(function(error){
-            vm.message = 'Error!' + error
+            console.log(error)
           })
           .finally(function() {
-            vm.message = ''
+            console.log('finish')
           })
     }, //getNews()
   } //methods option
