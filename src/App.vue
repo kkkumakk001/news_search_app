@@ -82,7 +82,7 @@
 
 $breakpoints: (
   xs: "only screen and (max-width: 320px)",
-  s: "only screen and (max-width: 575px)",
+  s: "only screen and (max-width: 480px)",
   m: "only screen and (max-width: 767px)",
   l: "only screen and (max-width: 1100px)",
   xl: "only screen and (max-width: 1300px)"
@@ -129,6 +129,7 @@ $breakpoints: (
   margin:0 20px 20px;
   width: 100%;
   max-width: 500px;
+  background-color: #fff;
   @include media(xl) {
     max-width: 400px;
   }
@@ -170,38 +171,31 @@ $breakpoints: (
 }
 
 #nav {
-  // padding: 30px;
-  // text-align: center;
-  padding-left: 20px;
+  // padding-left: 20px;
 }
 
 #nav a {
   display: inline-block;
   width: 100%;
-  padding: 5px;
-  // font-weight: bold;
+  padding: 10px 0  10px 10px;
   color: #2c3e50;
   text-decoration: none;
 }
 .nav_title {
   vertical-align: top;
-  margin-left: 5px;
-}
-.nav_icon {
-  // width: 24px;
-  // height: 24px;
+  // margin-left: 5px;
 }
 
 .search_box {
   position: relative;
   &:before {
-    content: "";           /* 疑似要素に必須 */
-    width: 24px;           /* アイコンの横幅 */
-    height: 24px;          /* アイコンの高さ */
-    background: url('../src/assets/search.svg') no-repeat center center / auto 100%; /* 背景にアイコン画像を配置 */
-    display: inline-block; /* 高さを持たせるためにインラインブロック要素にする */
-    position: absolute;    /* 相対位置に指定 */
-    top: 10.5px;              /* アイコンの位置。微調整してね */
+    content: "";
+    width: 24px;
+    height: 24px;
+    background: url('../src/assets/search.svg') no-repeat center center / auto 100%;
+    display: inline-block;
+    position: absolute;
+    top: 10.5px;
     left: 10px;
   }
 }
@@ -228,10 +222,6 @@ header {
     outline: none;
     background-color: #fff;
     z-index: 1000;
-    // border: none;
-    // &_img {
-    // z-index: 1000;
-    // }
     @include media(m) {
       display: block;
     }
@@ -240,6 +230,11 @@ header {
     position: absolute;
     top: 10px;
     right: 50px;
+    @include media(s) {
+      top: 16px;
+      right: 10px;
+      font-size: 24px;
+    }
   }
   &_form {
     display: inline-block;
@@ -266,6 +261,9 @@ header {
       @include media(m) {
         width: 300px;
       }
+      @include media(s) {
+        width: 200px;
+      }
     }
   }
 }
@@ -275,13 +273,11 @@ header {
   flex-wrap: wrap;
   justify-content: center;
   height: 100vh;
+  background-color: #F1F3F4;
   &_sidebar {
-    width: 200px;
     max-width: 200px;
-    // background-color: red;
+    background-color: #fff;
     padding-top: 85px;
-    // font-size: 24px;
-    // box-shadow: 0 0 3px #000;
     max-height: 100vh;
     overflow: hidden;
     flex: 1;
@@ -294,8 +290,6 @@ header {
   }
   &_main {
     width: calc(100% - 200px);
-    // background-color: blue;
-    // padding: 0 45px;
     max-height: 100vh;
     flex: 2;
     overflow: auto;
@@ -306,7 +300,6 @@ header {
 #nav a.router-link-exact-active {
   background-color: rgb(227, 237, 253);
 }
-
 .view-enter, .view-leave {
   opacity: 0;
 }
@@ -319,38 +312,25 @@ header {
 
 
 
-
-// #menu_cover {
-//   background-color: #a9a9a9;
-//   box-sizing: border-box;
-//   height: 100%;
-//   width: 50%;
-//   padding: 10px;
-//   position: fixed;
-//   left: -100%;
-//   top: 65px;
-//   transition: transform 1s linear 0s;
-//   z-index: 100;
-//   // box-shadow: 3px 0 3px -3px #000;
-//   & >  a.router-link-exact-active {
-//     background-color: rgb(227, 237, 253);
-//   }
-// }
-
 .menu_cover_class {
-  background-color: #a9a9a9;
+  background-color: #fff;
   box-sizing: border-box;
   height: 100%;
-  width: 50%;
-  padding: 10px;
+  width: 70%;
+  max-width: 250px;
   position: fixed;
   left: -100%;
   top: 65px;
   transition: transform 1s linear 0s;
   z-index: 100;
-  // box-shadow: 3px 0 3px -3px #000;
+  & a {
+    display: inline-block;
+    width: 100%;
+    padding: 10px 0 10px 10px;
+  }
   & >  a.router-link-exact-active {
     background-color: rgb(227, 237, 253);
+
   }
 }
 
@@ -359,20 +339,23 @@ header {
   top: 65px;
 }
 
-.search_wrap {
+.hide {
   display: none;
 }
 
-
+.search_wrap {
+  display: none;
+}
 </style>
 
-<script>
 
+
+<script>
 export default {
   name: 'App',
   data() {
     return {
-      // toggle: false
+      
     }
   },
   methods: {
@@ -404,13 +387,15 @@ document.addEventListener('DOMContentLoaded', ()=> {
   addEventListener('click', (e) => {
     if(e.target != opendMenu && opendMenu.classList.contains('open') == true) {
       opendMenu.classList.remove('open')
+      iconMenu.classList.remove('hide')
       console.log('閉じる通ってる')
     }
   })
 
   addEventListener('click', (e) => {
     if(e.target == iconMenu) {
-      opendMenu.classList.toggle('open')
+      opendMenu.classList.add('open')
+      iconMenu.classList.add('hide')
       console.log('開く通ってる')
     }
   })
